@@ -1,4 +1,4 @@
-from utils import *
+from excelproject.utils import *
 
 from pdfminer.pdfpage import PDFPage
 from pdfminer.layout import LAParams, LTTextBox
