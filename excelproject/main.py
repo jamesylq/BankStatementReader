@@ -4,9 +4,9 @@ import xlsxwriter
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 
-from dbs import dbs
-from ocbc import ocbc
-from utils import *
+from excelproject.dbs import dbs
+from excelproject.ocbc import ocbc
+from excelproject.utils import *
 
 
 def main():
