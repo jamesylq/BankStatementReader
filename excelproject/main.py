@@ -38,13 +38,12 @@ def rws(s: str, char: str = None):
 
 
 def main():
-    data = []
-
     Tk().withdraw()
     filename = askopenfilename(filetypes=[("PDF Files", "*.pdf")])
 
     if filename == '':
         print('No file selected! Program Terminating...')
+        quit(0)
 
     fp = open(filename, 'rb')
     rsrcmgr = PDFResourceManager()
@@ -57,9 +56,23 @@ def main():
 
     print(f"Process Started {starttime}.")
 
+    filename = filename.replace("pdf", "xlsx")
+    print(f'Creating Output Excel File ({filename})...', end=" ")
+    workbook = xlsxwriter.Workbook(filename)
+
+    filename = filename.split('/')[-1][:-5]
+    if len(filename) > 30:
+        filename = filename[:30]
+    worksheet = workbook.add_worksheet(filename)
+
+    for i in range(len(SHEETTOP)):
+        worksheet.write(0, i, SHEETTOP[i][0])
+        worksheet.set_column(i, i, SHEETTOP[i][1])
+
+    print('Done!\nReading PDF...')
+
     for n in range(len(pages)):
         curr = []
-        data.append([])
         print(f'Processing Page {n + 1} of {len(pages)}...')
         interpreter.process_page(pages[n])
         layout = device.get_result()
@@ -70,10 +83,8 @@ def main():
             if isinstance(lobj, LTTextBox):
                 x, y, text = lobj.bbox[0], lobj.bbox[3], lobj.get_text()
 
-                if x == 136.92 and 'BALANCE' not in text:
+                if x == 136.92 and 'BALANCE C/F' not in text and 'BALANCE B/F' not in text:
                     info = text.split('\n')
-
-                curr.append((x, y, text))
 
                 if x == 46.2:
                     d = Entry(round(y, 5))
@@ -89,52 +100,41 @@ def main():
                         prevL = d.l
                         prev = d.y
 
-                    data[-1].append(d)
+                    curr.append(d)
 
                 elif x == 91.56:
-                    d = find(data[-1], round(y, 5))
+                    d = find(curr, round(y, 5))
                     if d is not None:
                         d.valueDate = rws(text)
 
                 elif 300 <= x <= 350:
-                    d = find(data[-1], round(y, 5))
+                    d = find(curr, round(y, 5))
                     if d is not None:
                         d.withdrawal = float(rws(text))
 
                 elif 390 <= x <= 450:
-                    d = find(data[-1], round(y, 5))
+                    d = find(curr, round(y, 5))
                     if d is not None:
                         d.deposit = float(rws(text))
 
                 elif 490 <= x <= 550:
-                    d = find(data[-1], round(y, 5))
+                    d = find(curr, round(y, 5))
                     if d is not None:
                         d.balance = float(rws(text))
 
-        if data[-1] and info is not None:
-            d = data[-1][0]
+        if curr and info is not None:
+            d = curr[0]
 
-            for i in range(len(data[-1]) - 1):
-                n = data[-1][i + 1]
+            for i in range(len(curr) - 1):
+                n = curr[i + 1]
                 if n.l is None:
                     continue
                 d.description = " ".join(info[d.l:n.l])
                 d = n
 
-            data[-1][-1].description = " ".join(info[d.l:])
+            curr[-1].description = " ".join(info[d.l:])
 
-    filename = filename.replace("pdf", "xlsx")
-    print(f'Building Output Excel File ({filename})...')
-    workbook = xlsxwriter.Workbook(filename)
-    filename = filename.split('/')[-1][:-5]
-    worksheet = workbook.add_worksheet(filename)
-
-    for i in range(len(SHEETTOP)):
-        worksheet.write(0, i, SHEETTOP[i][0])
-        worksheet.set_column(i, i, SHEETTOP[i][1])
-
-    for i in range(len(data)):
-        for d in data[i]:
+        for d in curr:
             if d.countNone() == 0:
                 worksheet.write(sheety, 0, sheety)
                 worksheet.write(sheety, 1, d.transDate)
