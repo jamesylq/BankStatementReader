@@ -70,7 +70,7 @@ def main():
             if isinstance(lobj, LTTextBox):
                 x, y, text = lobj.bbox[0], lobj.bbox[3], lobj.get_text()
 
-                if x == 136.92 and 'BALANCE B/F' not in text:
+                if x == 136.92 and 'BALANCE' not in text:
                     info = text.split('\n')
 
                 curr.append((x, y, text))
