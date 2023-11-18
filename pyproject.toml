@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "excelproject"
-version = "0.1.3"
+version = "1.0.0"
 description = "Convert OCBC Bank Statements from PDF to Excel"
 authors = ["Ying Liqian <jamesylq@gmail.com>"]
 readme = "README.md"
