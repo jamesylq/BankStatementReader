@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "excelproject"
-version = "1.0.2"
+version = "1.1.0"
 description = "Convert OCBC Bank Statements from PDF to Excel"
 authors = ["Ying Liqian <jamesylq@gmail.com>"]
 readme = "README.md"
@@ -12,6 +12,7 @@ excel-project = "excelproject.main:main"
 python = "^3.9"
 xlsxwriter = "^3.1.9"
 pdfminer = "^20191125"
+pygame = "^2.5.2"
 
 
 [build-system]

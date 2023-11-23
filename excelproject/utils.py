@@ -12,6 +12,8 @@ SHEETTOP = [
 ]
 OCBCIGNORE = ["BALANCE B/F", "BALANCE C/F"]
 DBSIGNORE = ["Balance Brought Forward", "Balance Carried Forward"]
+BGCOLOR = (200, 200, 200)
+MAXFPS = 120
 
 
 def find(l, y):
