@@ -1,8 +1,12 @@
 import os
+import sys
 import glob
 import pygame
 import datetime
 import xlsxwriter
+
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
 
 try:
     from excelproject.utils import *
@@ -308,12 +312,20 @@ def main():
                         if event.button == 1:
                             if 30 <= mx <= 1170:
                                 if 100 <= my <= 140:
-                                    filename = fileSelection(curr_path)
+                                    # if sys.platform == "darwin":
+                                    #     filename = fileSelection(curr_path)
+                                    # else:
+                                    Tk().withdraw()
+                                    filename = askopenfilename(filetypes=[("PDF Files", "*.pdf")])
                                     if filename != '':
                                         status = 'DBS'
 
                                 elif 150 <= my <= 190:
-                                    filename = fileSelection(curr_path)
+                                    # if sys.platform == "darwin":
+                                    #     filename = fileSelection(curr_path)
+                                    # else:
+                                    Tk().withdraw()
+                                    filename = askopenfilename(filetypes=[("PDF Files", "*.pdf")])
                                     if filename != '':
                                         status = 'OCBC'
 
