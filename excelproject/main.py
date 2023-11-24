@@ -312,20 +312,20 @@ def main():
                         if event.button == 1:
                             if 30 <= mx <= 1170:
                                 if 100 <= my <= 140:
-                                    # if sys.platform == "darwin":
-                                    #     filename = fileSelection(curr_path)
-                                    # else:
-                                    Tk().withdraw()
-                                    filename = askopenfilename(filetypes=[("PDF Files", "*.pdf")])
+                                    if sys.platform == "darwin":
+                                        filename = fileSelection(curr_path)
+                                    else:
+                                        Tk().withdraw()
+                                        filename = askopenfilename(filetypes=[("PDF Files", "*.pdf")])
                                     if filename != '':
                                         status = 'DBS'
 
                                 elif 150 <= my <= 190:
-                                    # if sys.platform == "darwin":
-                                    #     filename = fileSelection(curr_path)
-                                    # else:
-                                    Tk().withdraw()
-                                    filename = askopenfilename(filetypes=[("PDF Files", "*.pdf")])
+                                    if sys.platform == "darwin":
+                                        filename = fileSelection(curr_path)
+                                    else:
+                                        Tk().withdraw()
+                                        filename = askopenfilename(filetypes=[("PDF Files", "*.pdf")])
                                     if filename != '':
                                         status = 'OCBC'
 
